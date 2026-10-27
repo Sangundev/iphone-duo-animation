@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="An interactive WebGL preview of a book-fold handset, built with TypeScript and three.js." />
+    <meta name="color-scheme" content="light" />
+    <title>iPhone Duo - Animation</title>
+    <link rel="icon" href="./favicon.ico" />
+    <link rel="apple-touch-icon" href="./favicon.ico" />
+    <link rel="preload" href="./assets/iPhone_Duo_Render.usdc" as="fetch" crossorigin fetchpriority="low" />
+    <link rel="stylesheet" href="./src/styles.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+    <nav class="site-links" aria-label="Project links">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231ZM17.083 19.77h1.833L7.004 4.126H5.036Z"
+          />
+        </svg>
+      </a>
+    </nav>
+    <main class="page">
+      <div class="page-header">
+        <!-- <h1 class="page-title">Take a closer look.</h1> -->
+        <div class="upload-row">
+          <button
+            type="button"
+            id="reset-upload"
+            class="reset-button"
+            aria-label="Reset to default image"
+            title="Reset to default image"
+            hidden
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3" />
+              <path d="M4.5 4.5v4h4" />
+            </svg>
+          </button>
+          <button type="button" id="upload" class="upload-button" disabled>Upload custom image</button>
+        </div>
+      </div>
+
+      <section class="viewer" aria-label="Foldable design">
+        <div
+          id="stage"
+          class="stage"
+          role="img"
+          aria-label="3D model of the device. Drag to rotate and scroll to zoom."
+        ></div>
+
+        <div
+          id="loader"
+          class="loader"
+          role="progressbar"
+          aria-label="Loading 3D model"
+          aria-busy="true"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+        >
+          <span class="loader-spinner" aria-hidden="true"></span>
+          <span class="loader-label">Loading 3D model</span>
+          <span class="loader-track" aria-hidden="true"><span class="loader-bar"></span></span>
+        </div>
+
+        <div class="highlights" id="highlights">
+          <div class="highlight-sheet is-collapsed" id="highlight-sheet" aria-live="polite"></div>
+          <div class="highlight-steps">
+            <button type="button" id="previous-highlight" class="step-button" aria-label="Previous highlight">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6.5 14.5 5.5-5.5 5.5 5.5" /></svg>
+            </button>
+            <button type="button" id="next-highlight" class="step-button" aria-label="Next highlight">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6.5 9.5 5.5 5.5 5.5-5.5" /></svg>
+            </button>
+          </div>
+          <ul class="highlight-list" id="highlight-list"></ul>
+        </div>
+
+
+        <input id="upload-file" type="file" accept="image/*" hidden />
+      </section>
+    </main>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
