@@ -132,7 +132,8 @@ void main() {
   float distanceToWipe = distance(vUv.x, wipePosition);
   float blurArea = remap(0.0, 0.75, clamp(remap(blurBounds.x, blurBounds.y, distanceToWipe) * wipeAmount * 2.5, 0.0, 1.0));
   vec3 shade = vec3(smoothstep(1.3, 0.9, blurArea) * smoothstep(1.0, 0.9, distance(vUv.y, 0.5) * 2.0));
-  fragColor = textureBicubic(map, vUv, blurArea * maxBlur) * vec4(shade, 1.0);
+  vec4 sharp = blurArea <= 0.0 ? textureLod(map, vUv, 0.0) : textureBicubic(map, vUv, blurArea * maxBlur);
+  fragColor = sharp * vec4(shade, 1.0);
 }
 `;
 

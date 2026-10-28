@@ -1,7 +1,7 @@
 import { MathUtils, Vector3 } from 'three';
 import { createFoldable, loadModel } from './device/foldable.js';
 import { HIGHLIGHTS } from './device/highlights.js';
-import { loadLockScreen, loadStaticImage, paintCustomImage } from './device/screens.js';
+import { loadLockScreen, loadPanelImage, loadStaticImage, paintCustomImage } from './device/screens.js';
 import { createStage } from './stage/stage.js';
 
 const SLIDER_STEPS = 1000;
@@ -24,6 +24,8 @@ const ARRIVAL_VIEW = { distance: 34, pitch: 1.53, yaw: 0.3 };
 const IMAGES_SHARE = 0.15;
 const MODEL_SHARE = 0.7;
 const STELE_URL = './assets/stele.webp';
+const OUTER_IMAGE_URL = './assets/outer.jpg';
+const INNER_IMAGE_URL = './assets/inner.png';
 
 function easeInOut(progress) {
   return progress < 0.5 ? 4 * progress ** 3 : 1 - (-2 * progress + 2) ** 3 / 2;
@@ -91,6 +93,15 @@ export async function start({ host, rack, rail, notice, loader, uploader, bindSe
     notice.show('The device model could not be loaded. Refresh the page to try again.');
     return;
   }
+
+  loadPanelImage(OUTER_IMAGE_URL, 'outer').then(
+    (image) => foldable.setPanelImage('outer', image),
+    (error) => console.error(error),
+  );
+  loadPanelImage(INNER_IMAGE_URL, 'inner').then(
+    (image) => foldable.setPanelImage('inner', image),
+    (error) => console.error(error),
+  );
 
   let stelePromise = null;
   function stele() {

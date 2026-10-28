@@ -29,8 +29,8 @@ const INNER_UI_FRAME = new Vector4(-7.89935, 0.34562 - MODEL_DROP, 15.7987, 11.1
 const OUTER_UI_FRAME = new Vector4(0.23396, 0.27173 - MODEL_DROP, 7.73936, 11.2513).multiplyScalar(
   (UI_REFERENCE_EYE.z - 0.24948) / (UI_REFERENCE_EYE.z - 0.825538),
 );
-const INNER_PIXEL = new Vector2(1 / 1600, 1 / 1125);
-const OUTER_PIXEL = new Vector2(1 / 774, 1 / 1125);
+const INNER_PIXEL = new Vector2(1 / 2400, 1 / 1688);
+const OUTER_PIXEL = new Vector2(1 / 1161, 1 / 1688);
 const CLOSED_ZOOM = 1.47;
 
 const LAYER_DEPTH = { sky: 0.47, mountain: 1, dune: 0.7 };
@@ -252,6 +252,7 @@ export function createFoldable(model, lockScreen, anisotropy, environment) {
 
   let customTexture = null;
   let retired = null;
+  const panelTextures = { inner: null, outer: null };
   const turn = { inner: 'none', outer: 'none' };
   let focus = null;
   let fade = 1;
@@ -268,6 +269,7 @@ export function createFoldable(model, lockScreen, anisotropy, environment) {
       dim: kind === 'inner' && focus === 'outer',
     };
     if (customTexture) return { ...common, backdrop: customTexture, layered: false, clock: false };
+    if (panelTextures[kind]) return { ...common, fit: true, backdrop: panelTextures[kind], layered: false, clock: false };
     return {
       ...common,
       backdrop: fit ? fittedTexture(kind, turn[kind]) : backdrop,
@@ -549,6 +551,11 @@ export function createFoldable(model, lockScreen, anisotropy, environment) {
     swapImage(null);
   }
 
+  function setPanelImage(kind, image) {
+    panelTextures[kind] = createTexture(image, anisotropy);
+    dress();
+  }
+
   return {
     root,
     setOpenness,
@@ -559,6 +566,7 @@ export function createFoldable(model, lockScreen, anisotropy, environment) {
     advanceBlend,
     showImage,
     clearImage,
+    setPanelImage,
     render,
     warmUp,
   };

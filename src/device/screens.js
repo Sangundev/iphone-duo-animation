@@ -1,6 +1,6 @@
-const INNER_WIDTH = 1600;
-const OUTER_WIDTH = 774;
-const HEIGHT = 1125;
+const INNER_WIDTH = 2400;
+const OUTER_WIDTH = 1161;
+const HEIGHT = 1688;
 const UI_ASSETS = './assets/ui/';
 
 const CLOCK_TIME_BOX = { width: 0.73, height: 0.54 };
@@ -119,4 +119,11 @@ export async function paintCustomImage(file) {
 
 export async function loadStaticImage(src) {
   return paintFittedImage(await loadImage(src));
+}
+
+export async function loadPanelImage(src, panel) {
+  const image = await loadImage(src);
+  const canvas = createCanvas(panel === 'inner' ? INNER_WIDTH : OUTER_WIDTH, HEIGHT);
+  drawCover(canvasContext(canvas), image, canvas.width, canvas.height);
+  return canvas;
 }
